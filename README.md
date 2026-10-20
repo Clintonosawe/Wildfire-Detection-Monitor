@@ -1,146 +1,157 @@
-<div align="left">
+<div align="center">
 
 # Wildfire Detection System
 
-**Satellite observations. Environmental context. Informed review.**
+**Making satellite fire observations easier to understand and investigate.**
 
-A wildfire-monitoring project that explores how satellite fire detections, weather conditions, and community observations can help people review potential wildfire activity.
+Exploring how satellite data, weather conditions, and community observations can support wildfire monitoring.
 
 **Python · Geospatial Data · Environmental Monitoring**
 
-[Overview](#overview) · [Project Scope](#project-scope) · [Development Roadmap](#development-roadmap) · [Attribution](#attribution)
+[About](#about-the-project) · [Scope](#project-scope) · [Roadmap](#development-roadmap) · [Acknowledgments](#attribution-and-acknowledgments)
 
 </div>
 
 ---
 
-## Overview
+## About the Project
 
-The **Wildfire Detection System** began as a collaborative prototype developed by **Aaron Johnson and Clinton Osawe**. The original idea combined satellite fire observations from NASA's Fire Information for Resource Management System (FIRMS), weather information, and an exploratory SMS confirmation workflow.
+I developed the **Wildfire Detection System** as part of a project in my role as a **Software Engineering Research Assistant**, with credit to **Professor Sukhjit Singh Sehra**.
 
-This repository documents the next stage of that idea: developing a reproducible application that organizes observations, highlights incidents worth reviewing, and records the evidence behind each decision.
+The idea started with a question: **how can we make satellite fire observations more useful to the people reviewing them?** A detection gives us a location and a time, but understanding what might be happening on the ground takes more context.
 
-The goal is to make potential wildfire activity easier to investigate while keeping the distinction between a satellite detection, an automated priority score, and a human assessment clear.
+The initial prototype explored bringing together observations from NASA's Fire Information for Resource Management System (FIRMS), local weather information, and an SMS-based approach to requesting nearby observations. This repository builds on that idea, with a focus on organizing the data, making potential incidents easier to inspect, and keeping a clear record of review decisions.
 
-> **Project status:** Prototype redevelopment. This README establishes the scope and delivery plan; roadmap items are not claims of completed functionality. Implementation status will be updated as features are added and verified in this repository.
+> **Currently in development:** The scope and roadmap below describe the application I'm working toward. Features will be marked complete as their implementation and tests are added to this repository.
 
-## The Problem
+## Why This Project?
 
-A satellite thermal anomaly is a useful signal, but it does not establish that an uncontrolled wildfire is occurring. Reviewing potential incidents requires context: where and when an observation was recorded, whether other detections are nearby, what environmental conditions are available, and what evidence supports a follow-up decision.
+Satellite observations can point us toward potential fire activity, but a thermal anomaly alone does not tell the whole story. Nearby detections may belong to the same event, weather information may be missing or outdated, and a report from someone nearby still needs to be assessed.
 
-This project explores a workflow for bringing those pieces together in one place.
+I want this project to make that review process easier to follow. Someone looking at an incident should be able to see where the data came from, why it was prioritized, and what evidence informed the next decision.
 
 ## Project Scope
 
-### Initial development target
+### The first version
 
-The first release will focus on a **local, reproducible monitoring and review application**.
+The first goal is a local application that can be run and explored using sample data, without needing paid services or API credentials.
 
-| Area | Intended capability |
+| Feature | What it will help users do |
 | :--- | :--- |
-| **Observation ingestion** | Import satellite observation CSV files, validate required fields, and identify duplicate records. |
-| **Geographic grouping** | Organize nearby observations into candidate incidents using documented distance and time rules. |
-| **Incident prioritization** | Provide an explainable priority score with visible contributing factors and missing-data indicators. |
-| **Monitoring interface** | Display incident locations, observation times, supporting evidence, and review status. |
-| **Human review** | Record decisions and notes through a defined incident-review workflow. |
-| **Persistent records** | Preserve observations and review history between sessions. |
-| **Reproducible demonstration** | Include clearly labeled synthetic data so the project can be explored without paid services or credentials. |
+| **Import observations** | Load satellite observation CSV files, catch invalid records, and avoid importing duplicates. |
+| **Group nearby detections** | Bring observations close in location and time together into candidate incidents. |
+| **Understand priority** | See which incidents may deserve attention first and which factors contributed to their scores. |
+| **Explore incidents** | View locations, observation times, available context, and review status in a dashboard. |
+| **Record a review** | Add notes, update an incident's status, and revisit the reasoning behind a decision. |
+| **Keep a history** | Save observations and review activity between sessions. |
+| **Try a reproducible demo** | Explore the workflow with clearly labeled synthetic observations. |
 
-### Future extensions
+### Ideas for later versions
 
-After the initial workflow is implemented and tested, potential extensions include:
+Once the core workflow is working and tested, I'd like to add:
 
-- Scheduled NASA FIRMS ingestion with error handling and source timestamps.
-- Weather enrichment with documented units, freshness checks, and provenance.
-- Community reports kept separate from verified evidence.
-- Opt-in notifications with consent, unsubscribe support, and delivery tracking.
-- Machine-learning experiments supported by labeled data and a documented evaluation process.
+- Scheduled imports from NASA FIRMS, with visible source timestamps and handling for failed requests.
+- Weather information that includes its source, units, and observation time.
+- Community reports that remain clearly marked as unverified until reviewed.
+- Opt-in notifications with consent and unsubscribe support.
+- Machine-learning experiments evaluated against labeled examples.
 
-### Outside the initial scope
+### Where the scope stops
 
-The first release will not provide emergency dispatch, evacuation guidance, wildfire-spread forecasts, automatic image verification, or a publicly deployed multi-user service. It will not claim validated detection accuracy or replace official emergency information.
+This is a research and software-development project. The first version is not intended for emergency dispatch, evacuation advice, wildfire-spread forecasting, or automatic verification of photos. It does not replace official emergency information.
 
-## Proposed Workflow
+A priority score will help organize the review queue; it will not represent a validated probability that a wildfire exists.
+
+## How the Pieces Fit Together
+
+The planned workflow starts with satellite observations and ends with a recorded human review. Weather and community reports provide additional context as those integrations are developed.
 
 ```mermaid
 flowchart TD
-    A[Satellite observations] --> B[Validate and deduplicate]
-    B --> C[Group candidate incidents]
-    W[Available weather context] --> D[Explainable prioritization]
-    C --> D
-    D --> E[Monitoring dashboard]
+    A[Satellite observations] --> B[Check and deduplicate records]
+    B --> C[Group nearby detections]
+    C --> D[Calculate review priority]
+    W[Available weather information] --> D
+    D --> E[Incident dashboard]
     E --> F[Human review]
-    F --> G[Recorded decision and evidence]
     R[Unverified community reports] -.-> F
+    F --> G[Save decision and supporting notes]
 ```
 
-**Detection** means a source observation has been recorded. **Priority** indicates which observations may deserve attention first. **Review status** records an operator's assessment; it is not independent proof that a wildfire exists.
+Three distinctions matter throughout the project:
 
-## Technical Direction
+- A **detection** is an observation recorded by a data source.
+- A **priority score** helps decide what to inspect first.
+- A **review status** records a person's assessment of the available evidence.
 
-| Component | Proposed approach | Purpose |
+Keeping these separate makes it easier to understand what the system knows and what still needs investigation.
+
+## Technical Approach
+
+| Part of the application | Planned technology | Why it fits |
 | :--- | :--- | :--- |
-| Application logic | Python | Ingestion, validation, grouping, and prioritization |
-| Local persistence | SQLite | Store observations, incidents, and review history |
-| Browser interface | HTML, CSS, and JavaScript | Present incidents and support review |
-| Data exchange | CSV and GeoJSON | Support reproducible imports and geographic exports |
-| Quality checks | Automated tests and GitHub Actions | Verify behavior and catch regressions |
+| Data processing and incident logic | Python | A practical foundation for validation, geographic calculations, and data analysis. |
+| Local storage | SQLite | Keeps observations and review history together without a separate database server. |
+| Dashboard | HTML, CSS, and JavaScript | Provides a browser interface for exploring incidents and recording decisions. |
+| Import and export | CSV and GeoJSON | Makes sample data easy to inspect and geographic results easy to reuse. |
+| Automated checks | Python tests and GitHub Actions | Helps catch regressions as the project grows. |
 
-The original prototype explored Pandas, scikit-learn, K-means clustering, weather API requests, and SMS requests. Those experiments inform the redevelopment, but they do not establish an integrated or production-ready system.
+The original prototype explored Pandas, scikit-learn, K-means clustering, weather API requests, and SMS requests. That work provides a starting point for the next version.
 
-K-means groups similar records; its cluster labels do not inherently identify wildfires. Any future predictive model will require independently labeled examples, suitable evaluation splits, and reported limitations before accuracy claims are made.
+One lesson from those experiments is that grouping similar records is different from identifying a real wildfire. K-means can reveal patterns, but its cluster labels do not establish detection accuracy. Before making predictive claims, I plan to use labeled data, compare against simple baselines, and document where a model performs poorly.
 
 ## Development Roadmap
 
-| Milestone | Deliverable | Completion criteria |
+I'm organizing the work into small milestones so each part can be tested and explained before adding the next.
+
+| Milestone | Focus | What completion looks like |
 | :--- | :--- | :--- |
-| **01 · Foundation** | Scope, attribution, and development plan | Project goals and boundaries are documented. |
-| **02 · Data pipeline** | Validated imports and duplicate handling | Valid fixtures import; malformed records are rejected with useful errors. |
-| **03 · Incident logic** | Geographic grouping and transparent scoring | Distance/time rules and score components have automated tests. |
-| **04 · Review workflow** | Persistent incidents, decisions, and notes | Allowed status transitions are enforced and survive restarts. |
-| **05 · Dashboard** | Incident exploration and geographic export | A user can inspect evidence, record a review, and export results. |
-| **06 · Release readiness** | Setup instructions, CI, and documented limitations | A fresh checkout runs using the documented steps and passes its tests. |
+| **01 · Foundation** | Project scope and attribution | The purpose, boundaries, and development plan are documented. |
+| **02 · Data imports** | Validation and duplicate handling | Sample files import correctly, and invalid records produce useful errors. |
+| **03 · Incident logic** | Geographic grouping and priority scores | Grouping rules and score calculations are covered by tests. |
+| **04 · Review workflow** | Saved incidents, notes, and decisions | Valid status changes are enforced and remain available after a restart. |
+| **05 · Dashboard** | Incident exploration and export | A user can inspect evidence, record a review, and export geographic results. |
+| **06 · First release** | Setup guide, automated checks, and demo | A fresh checkout runs using the documented steps and passes its tests. |
 
-Milestones represent planned increments. Completion should be supported by the code, tests, and review history in this repository.
+These are planned milestones. The repository's code, tests, and pull requests will show the progress behind each one.
 
-## Development Practices
+## How I'm Managing the Work
 
-- **Track work with issues:** Define the problem, scope, and acceptance criteria before implementation.
-- **Use focused branches:** Keep each change small enough to review and explain.
-- **Review through pull requests:** Link the relevant issue and describe the behavior changed and verification performed.
-- **Test meaningful behavior:** Cover invalid data, duplicate imports, grouping boundaries, persistence, and review transitions.
-- **Document decisions:** Record important architectural choices and their tradeoffs.
-- **Protect credentials:** Keep API keys and personal contact information out of source control. Revoke any credentials previously exposed in prototype code.
+- **Start with an issue.** Describe the problem, keep the scope manageable, and define how the result will be checked.
+- **Keep changes focused.** Use branches and commits that each have a clear purpose.
+- **Review before merging.** Explain what changed, link the issue, and record the checks performed in the pull request.
+- **Test the awkward cases.** Include missing fields, duplicate records, grouping boundaries, and invalid review transitions.
+- **Write down decisions.** Explain important design choices and the tradeoffs behind them.
+- **Keep credentials private.** Exclude API keys and personal contact information from version control, and revoke any previously exposed keys.
 
-A feature is complete when its acceptance criteria are met, relevant tests pass, documentation reflects its behavior, and known limitations are recorded.
+I consider a feature finished when it meets its acceptance criteria, its relevant tests pass, and the documentation explains its behavior and limitations.
 
-## Running the Project
+## Getting Started
 
-This foundation README does not yet define a verified startup command for the evolving repository. Environment requirements, installation steps, sample-data instructions, and a demonstration walkthrough will be added alongside the runnable implementation.
+Setup instructions will be added alongside the runnable implementation. They will cover the Python version, installation steps, sample data, and a short walkthrough of the review workflow.
 
-Sample observations will be clearly marked as synthetic. Live data will be identified by its source and observation time.
+The demo will use clearly labeled synthetic observations. Any live-data integration will show the source and observation time so that sample, historical, and current data are easy to distinguish.
 
-## Attribution
+## Attribution and Acknowledgments
 
-The original **Wildfire Detection System** concept and prototype were jointly developed by:
+**Project developer:** Clinton Osawe  
+**Project context:** Software Engineering Research Assistant project  
+**Academic acknowledgment:** Professor Sukhjit Singh Sehra
 
-- **Clinton Osawe**
-- **[Co-author name — replace before publishing]**
+This project was developed as part of my work as a Software Engineering Research Assistant. I would like to acknowledge **Professor Sukhjit Singh Sehra** in connection with that work.
 
-The redevelopment builds on that shared work. Individual contributions should be described accurately as implementation progresses, with the original collaboration acknowledged.
+The satellite-data component draws on **[NASA FIRMS](https://firms.modaps.eosdis.nasa.gov/)**. NASA's [VIIRS field descriptions](https://firms.modaps.eosdis.nasa.gov/content/descriptions/FIRMS_VIIRS_Firehotspots.html) explain the observation fields used by the project. This is an independent project and is not affiliated with or endorsed by NASA.
 
-AI assistance has been used to help draft documentation and explore a reference implementation. Contributors remain responsible for reviewing, understanding, testing, and accurately describing code they incorporate.
-
-**Data source:** [NASA FIRMS](https://firms.modaps.eosdis.nasa.gov/). Refer to the [VIIRS field descriptions](https://firms.modaps.eosdis.nasa.gov/content/descriptions/FIRMS_VIIRS_Firehotspots.html) when interpreting observations. This project is independent and is not affiliated with or endorsed by NASA.
+AI tools have helped with documentation and exploring a reference implementation. Any code incorporated into this repository needs to be reviewed, understood, and tested as part of development.
 
 ## License
 
-A license has not yet been selected. The original contributors should agree on licensing before a `LICENSE` file is added. Public availability alone does not grant an open-source license.
+A license has not yet been selected. A `LICENSE` file will be added once the appropriate permissions and terms have been agreed upon.
 
 ---
 
 <div align="center">
 
-**Built to make wildfire observations easier to inspect, understand, and review.**
+**A research project built around clearer data, thoughtful review, and practical software engineering.**
 
 </div>
