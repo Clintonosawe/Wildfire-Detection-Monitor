@@ -123,17 +123,3 @@ The demo will use clearly labeled synthetic observations. Any live-data integrat
 This project was developed as part of my work as a Software Engineering Research Assistant. I would like to acknowledge **Professor Sukhjit Singh Sehra** in connection with that work.
 
 The satellite-data component draws on **[NASA FIRMS](https://firms.modaps.eosdis.nasa.gov/)**. NASA's [VIIRS field descriptions](https://firms.modaps.eosdis.nasa.gov/content/descriptions/FIRMS_VIIRS_Firehotspots.html) explain the observation fields used by the project. This is an independent project and is not affiliated with or endorsed by NASA.
-
-AI tools have helped with documentation and exploring a reference implementation. Any code incorporated into this repository needs to be reviewed, understood, and tested as part of development.
-
-## License
-
-A license has not yet been selected. A `LICENSE` file will be added once the appropriate permissions and terms have been agreed upon.
-
----
-
-<div align="center">
-
-**A research project built around clearer data, thoughtful review, and practical software engineering.**
-
-</div>
