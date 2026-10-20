@@ -6,8 +6,6 @@ The idea started with a question: **how can we make satellite fire observations 
 
 The initial prototype explored bringing together observations from NASA's Fire Information for Resource Management System (FIRMS), local weather information, and an SMS-based approach to requesting nearby observations. This repository builds on that idea, with a focus on organizing the data, making potential incidents easier to inspect, and keeping a clear record of review decisions.
 
-> **Currently in development:** The scope and roadmap below describe the application I'm working toward. Features will be marked complete as their implementation and tests are added to this repository.
-
 ## Why This Project?
 
 Satellite observations can point us toward potential fire activity, but a thermal anomaly alone does not tell the whole story. Nearby detections may belong to the same event, weather information may be missing or outdated, and a report from someone nearby still needs to be assessed.
