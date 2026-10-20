@@ -1,17 +1,5 @@
 # Wildfire Detection System
 
-**Making satellite fire observations easier to understand and investigate.**
-
-Exploring how satellite data, weather conditions, and community observations can support wildfire monitoring.
-
-**Python · Geospatial Data · Environmental Monitoring**
-
-[About](#about-the-project) · [Scope](#project-scope) · [Roadmap](#development-roadmap) · [Acknowledgments](#attribution-and-acknowledgments)
-
-</div>
-
----
-
 ## About the Project
 
 I developed the **Wildfire Detection System** as part of a project in my role as a **Software Engineering Research Assistant**, with credit to **Professor Sukhjit Singh Sehra**.
