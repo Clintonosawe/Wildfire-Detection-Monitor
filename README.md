@@ -1,5 +1,3 @@
-<div align="center">
-
 # Wildfire Detection System
 
 **Making satellite fire observations easier to understand and investigate.**
