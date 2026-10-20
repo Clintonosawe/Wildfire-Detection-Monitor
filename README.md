@@ -1,5 +1,6 @@
+<div align="center">
 # Wildfire Detection System
-
+</div>
 ## About the Project
 
 I developed the **Wildfire Detection System** as part of a project in my role as a **Software Engineering Research Assistant**, with credit to **Professor Sukhjit Singh Sehra**.
