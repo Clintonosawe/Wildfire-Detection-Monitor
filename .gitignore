@@ -1,0 +1,2 @@
+*.db
+*.db-*git rm --cached emberwatch.db
